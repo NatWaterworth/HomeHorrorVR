@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: NatWaterworth
   productName: Hack_Week_VR
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -140,7 +140,10 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: -778961419394751902, guid: f263c55a9e51acc428a082df6b91c367, type: 2}
+  - {fileID: 11400000, guid: 42e8e7efa37c289419d803b2c64ca9b4, type: 2}
+  - {fileID: 737055272109521193, guid: e119fc55bf2e6984ebfefce53421331b, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -160,7 +163,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.NatWaterworth.Hack_Week_VR
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -168,9 +172,9 @@ PlayerSettings:
     tvOS: 0
   overrideDefaultApplicationIdentifier: 0
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 22
+  AndroidMinSdkVersion: 29
   AndroidTargetSdkVersion: 0
-  AndroidPreferredInstallLocation: 1
+  AndroidPreferredInstallLocation: 0
   aotOptions: 
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
@@ -258,7 +262,7 @@ PlayerSettings:
   useCustomGradlePropertiesTemplate: 0
   useCustomGradleSettingsTemplate: 0
   useCustomProguardFile: 0
-  AndroidTargetArchitectures: 1
+  AndroidTargetArchitectures: 2
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
@@ -433,8 +437,8 @@ PlayerSettings:
     m_APIs: 10000000
     m_Automatic: 1
   - m_BuildTarget: AndroidPlayer
-    m_APIs: 150000000b000000
-    m_Automatic: 1
+    m_APIs: 0b000000
+    m_Automatic: 0
   - m_BuildTarget: WebGLSupport
     m_APIs: 0b000000
     m_Automatic: 0
@@ -478,7 +482,7 @@ PlayerSettings:
     m_Encoding: 1
   m_BuildTargetDefaultTextureCompressionFormat:
   - m_BuildTarget: Android
-    m_Format: 3
+    m_Format: 2
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -754,6 +758,7 @@ PlayerSettings:
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
+    Android: 1
     Standalone: 0
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
