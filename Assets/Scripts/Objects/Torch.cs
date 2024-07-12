@@ -2,29 +2,30 @@ using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
-    [SerializeField] private Light flashlightLight; // Assign the Light component of the flashlight
-    [SerializeField] private Renderer flashlightRenderer; // Assign the Renderer component of the flashlight
-    [SerializeField] private Material flashlightMaterial; // Assign the material that supports emission
+    [SerializeField] private Light _flashlightLight; // Assign the Light component of the flashlight
+    [SerializeField] private Renderer _flashlightRenderer; // Assign the Renderer component of the flashlight
 
-    private bool isOn;
+    private Material _flashlightMaterial;
+    private bool _isOn;
 
 
     void Start()
     {
-        if (flashlightLight == null || flashlightRenderer == null || flashlightMaterial == null)
+        if (_flashlightLight == null || _flashlightRenderer == null)
         {
             Debug.LogError("Please assign all required components.");
             return;
         }
+        _flashlightMaterial = _flashlightRenderer.material;
 
-        // Initialize the flashlight to be off
+
         SetFlashlightState(false);
     }
 
     public void ToggleFlashlight()
     {
-        isOn = !isOn;
-        SetFlashlightState(isOn);
+        _isOn = !_isOn;
+        SetFlashlightState(_isOn);
     }
 
     public void TurnFlashlightOn()
@@ -39,17 +40,17 @@ public class Flashlight : MonoBehaviour
 
     private void SetFlashlightState(bool state)
     {
-        flashlightLight.enabled = state;
-        isOn = state;
+        _flashlightLight.enabled = state;
+        _isOn = state;
         if (state)
         {
-            flashlightMaterial.EnableKeyword("_EMISSION");
-            flashlightRenderer.material.SetColor("_EmissionColor", Color.white); // Adjust color as needed
+            _flashlightMaterial.EnableKeyword("_EMISSION");
+            _flashlightRenderer.material.SetColor("_EmissionColor", Color.white); // Adjust color as needed
         }
         else
         {
-            flashlightMaterial.DisableKeyword("_EMISSION");
-            flashlightRenderer.material.SetColor("_EmissionColor", Color.black);
+            _flashlightMaterial.DisableKeyword("_EMISSION");
+            _flashlightRenderer.material.SetColor("_EmissionColor", Color.black);
         }
     }
 }
