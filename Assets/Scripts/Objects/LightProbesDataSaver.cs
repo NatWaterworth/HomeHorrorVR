@@ -1,6 +1,9 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+
+#if UNITY_EDITOR
+
+using UnityEditor;
 
 public class LightProbesDataSaver : EditorWindow
 {
@@ -51,3 +54,4 @@ public class LightProbesDataSaver : EditorWindow
         Debug.Log("Baked probes saved successfully to " + selectedLightProbesData.name + ".");
     }
 }
+#endif
