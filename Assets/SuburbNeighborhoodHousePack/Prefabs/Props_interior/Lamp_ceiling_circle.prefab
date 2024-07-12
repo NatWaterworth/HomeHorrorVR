@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3390406}
   - component: {fileID: 2368516}
   - component: {fileID: 6531744}
+  - component: {fileID: 7352926554746885564}
   m_Layer: 0
   m_Name: Lamp_ceiling_circle
   m_TagString: Untagged
@@ -106,6 +107,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.16314873, y: 0.03379482, z: 0.16424052}
   m_Center: {x: 0.000000052154064, y: -0.0031305067, z: 0.00027392805}
+--- !u!114 &7352926554746885564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8847942777f01f9438e7c172ab362ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulbMaterial: {fileID: 0}
+  emissionIntensityOn: 1
+  emissionIntensityOff: 0
 --- !u!1 &7271892566463951192
 GameObject:
   m_ObjectHideFlags: 0

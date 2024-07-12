@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,10 +18,13 @@ public class LightmapManager : MonoBehaviour
 
     private bool lightingOn = true;
 
+    public static event Action<bool> OnLightingToggle;
+
     void Start()
     {
         SetupLightmaps();
         SetupReflectionProbeControllers();
+        OnLightingToggle?.Invoke(lightingOn);
     }
 
     public void ToggleLightmaps()
@@ -46,6 +50,7 @@ public class LightmapManager : MonoBehaviour
         LightmapSettings.lightmaps = lightingOn ? brightLightMap : darkLightMap;
         TurnAllReflectionProbesToState(lightingOn);
         SetLightProbes(lightingOn);
+        OnLightingToggle?.Invoke(lightingOn);
     }
 
     private void SetReflectionProbe(ReflectionProbe[] probes, bool isOn)
