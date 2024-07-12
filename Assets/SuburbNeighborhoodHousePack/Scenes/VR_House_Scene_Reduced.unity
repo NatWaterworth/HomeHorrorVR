@@ -14693,19 +14693,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e3da55b5a296a49bae5e69a7a0d0a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  darkLightMapDir:
+  _darkLightMapDir:
   - {fileID: 2800000, guid: a015da603dcafe24791f6fd91ca2defa, type: 3}
   - {fileID: 2800000, guid: 386454843c339db479d5a4d635299e8c, type: 3}
-  darkLightMapColour:
+  _darkLightMapColour:
   - {fileID: 2800000, guid: 3ef53baae1a923c44927eaeeafd47e1f, type: 3}
   - {fileID: 2800000, guid: 8eee4cdbaea2210468e919cfec25ccbb, type: 3}
-  brightLightMapDir:
+  _brightLightMapDir:
   - {fileID: 2800000, guid: 90faa2560c79eac4b86a0e2c85c05f55, type: 3}
   - {fileID: 2800000, guid: a322c63ba4f442e49b39661e8ae6f6a6, type: 3}
-  brightLightMapColour:
+  _brightLightMapColour:
   - {fileID: 2800000, guid: 46ec51e5ce7a3e24f8bb8cab2468007e, type: 3}
   - {fileID: 2800000, guid: c187bd60a69d04f488224ad44303d07b, type: 3}
-  reflectionProbeSwitchers: []
+  _darkLightProbesData: {fileID: 11400000, guid: c7e0107546681f9499305d6dd41b1f9b, type: 2}
+  _brightLightProbesData: {fileID: 11400000, guid: 5b867b3d1114934418cccce4ca9d8769, type: 2}
 --- !u!1 &1474962278
 GameObject:
   m_ObjectHideFlags: 0

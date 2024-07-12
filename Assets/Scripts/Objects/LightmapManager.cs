@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class LightmapManager : MonoBehaviour
 {
-    [SerializeField] Texture2D[] darkLightMapDir;
-    [SerializeField] Texture2D[] darkLightMapColour;
-    [SerializeField] Texture2D[] brightLightMapDir;
-    [SerializeField] Texture2D[] brightLightMapColour;
+    [SerializeField] private Texture2D[] _darkLightMapDir;
+    [SerializeField] private Texture2D[] _darkLightMapColour;
+    [SerializeField] private Texture2D[] _brightLightMapDir;
+    [SerializeField] private Texture2D[] _brightLightMapColour;
+    [SerializeField] private LightProbesData _darkLightProbesData;
+    [SerializeField] private LightProbesData _brightLightProbesData;
 
-    [SerializeField] ReflectionProbeSwitcher[] reflectionProbeSwitchers;
-
+    private ReflectionProbeSwitcher[] reflectionProbeSwitchers;
     private LightmapData[] darkLightMap;
     private LightmapData[] brightLightMap;
 
@@ -44,6 +45,7 @@ public class LightmapManager : MonoBehaviour
     {
         LightmapSettings.lightmaps = lightingOn ? brightLightMap : darkLightMap;
         TurnAllReflectionProbesToState(lightingOn);
+        SetLightProbes(lightingOn);
     }
 
     private void SetReflectionProbe(ReflectionProbe[] probes, bool isOn)
@@ -54,10 +56,16 @@ public class LightmapManager : MonoBehaviour
         }
     }
 
+    private void SetLightProbes(bool isOn)
+    {
+        LightmapSettings.lightProbes.bakedProbes = isOn ? 
+            _brightLightProbesData.bakedProbes : _darkLightProbesData.bakedProbes;
+    }
+
     private void SetupLightmaps()
     {
-        darkLightMap = SetupLightMap(darkLightMapDir, darkLightMapColour);
-        brightLightMap = SetupLightMap(brightLightMapDir, brightLightMapColour);
+        darkLightMap = SetupLightMap(_darkLightMapDir, _darkLightMapColour);
+        brightLightMap = SetupLightMap(_brightLightMapDir, _brightLightMapColour);
     }
 
     private void SetupReflectionProbeControllers()
