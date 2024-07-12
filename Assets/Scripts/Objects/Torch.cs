@@ -6,6 +6,9 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private Renderer flashlightRenderer; // Assign the Renderer component of the flashlight
     [SerializeField] private Material flashlightMaterial; // Assign the material that supports emission
 
+    private bool isOn;
+
+
     void Start()
     {
         if (flashlightLight == null || flashlightRenderer == null || flashlightMaterial == null)
@@ -16,6 +19,12 @@ public class Flashlight : MonoBehaviour
 
         // Initialize the flashlight to be off
         SetFlashlightState(false);
+    }
+
+    public void ToggleFlashlight()
+    {
+        isOn = !isOn;
+        SetFlashlightState(isOn);
     }
 
     public void TurnFlashlightOn()
@@ -31,7 +40,7 @@ public class Flashlight : MonoBehaviour
     private void SetFlashlightState(bool state)
     {
         flashlightLight.enabled = state;
-
+        isOn = state;
         if (state)
         {
             flashlightMaterial.EnableKeyword("_EMISSION");
