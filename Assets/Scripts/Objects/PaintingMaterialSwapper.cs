@@ -3,17 +3,20 @@ using System.Collections;
 
 public class PaintingMaterialSwapper : MonoBehaviour
 {
-    [SerializeField] private Material inactiveMaterial;
-    [SerializeField] private Material activeMaterial;
+    [SerializeField] private Material _inactiveMaterial;
+    [SerializeField] private Material _activeMaterial;
 
-    private MeshRenderer paintingRenderer;
+    [SerializeField] private bool _doDelaySwap;
+    [SerializeField] private float _swapDelay;
+
+    private MeshRenderer _paintingRenderer;
 
     private void Awake()
     {
         // Initialize the paintingRenderer with the MeshRenderer component attached to the same GameObject
-        paintingRenderer = GetComponent<MeshRenderer>();
+        _paintingRenderer = GetComponent<MeshRenderer>();
 
-        if (paintingRenderer == null)
+        if (_paintingRenderer == null)
         {
             Debug.LogError("MeshRenderer component not found on this GameObject.");
         }
@@ -22,18 +25,33 @@ public class PaintingMaterialSwapper : MonoBehaviour
     private void Start()
     {
         // Initialize the painting with the inactive material
-        if (paintingRenderer != null && inactiveMaterial != null)
+        if (_paintingRenderer != null && _inactiveMaterial != null)
         {
-            paintingRenderer.material = inactiveMaterial;
+            _paintingRenderer.material = _inactiveMaterial;
+        }
+
+        if (_doDelaySwap)
+        {
+            SwapMaterialAfterDelay(_swapDelay);
         }
     }
 
-    // Public function to swap the material immediately
-    public void SwapMaterialImmediately()
+    private void OnEnable()
     {
-        if (paintingRenderer != null && activeMaterial != null)
+        LightmapManager.OnLightingToggle += SwapMaterialImmediately;
+    }
+
+    private void OnDisable()
+    {
+        LightmapManager.OnLightingToggle -= SwapMaterialImmediately;
+    }
+
+    // Public function to swap the material immediately
+    public void SwapMaterialImmediately(bool inactive)
+    {
+        if (_paintingRenderer != null && _activeMaterial != null)
         {
-            paintingRenderer.material = activeMaterial;
+            _paintingRenderer.material = inactive ? _inactiveMaterial : _activeMaterial;
         }
     }
 
@@ -47,9 +65,9 @@ public class PaintingMaterialSwapper : MonoBehaviour
     private IEnumerator SwapMaterialAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (paintingRenderer != null && activeMaterial != null)
+        if (_paintingRenderer != null && _activeMaterial != null)
         {
-            paintingRenderer.material = activeMaterial;
+            _paintingRenderer.material = _activeMaterial;
         }
     }
 }
