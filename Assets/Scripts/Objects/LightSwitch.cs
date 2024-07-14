@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LightSwitch : MonoBehaviour
+public class LightSwitch : InteractableObject
 {
     public Light targetLight;
     public Switch switchComponent;
@@ -17,5 +17,11 @@ public class LightSwitch : MonoBehaviour
         {
             switchComponent.ToggleZScale();
         }
+    }
+
+    public override void Interact()
+    {
+        base.Interact();
+        ToggleLight();
     }
 }

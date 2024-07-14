@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Flashlight : MonoBehaviour
+public class Flashlight : PickupObject
 {
     [SerializeField] private Light _flashlightLight; // Assign the Light component of the flashlight
     [SerializeField] private Renderer _flashlightRenderer; // Assign the Renderer component of the flashlight
@@ -20,6 +20,12 @@ public class Flashlight : MonoBehaviour
 
 
         SetFlashlightState(false);
+    }
+
+    public override void Interact()
+    {
+        base.Interact();
+        ToggleFlashlight();
     }
 
     public void ToggleFlashlight()
