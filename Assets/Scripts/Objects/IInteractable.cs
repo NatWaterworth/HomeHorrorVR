@@ -2,8 +2,10 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    void Interact();
+    void Select();
+    void Deselect();
     void Highlight();
     void Unhighlight();
+    void OnMove();
 
 }

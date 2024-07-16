@@ -2,47 +2,79 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(ObjectSoundController))]
-public abstract class InteractableObject : MonoBehaviour, IInteractable
+public abstract class InteractableObject : BasicObject, IInteractable
 {
     protected ObjectSoundController _soundController;
-    protected XRGrabInteractable _grabInteractable;
+    protected XRBaseInteractable _grabInteractable;
+    protected Rigidbody _rigidbody;
 
-    protected virtual void Awake()
+    private float _minMoveVelocity = 0.01f;
+    private float _maxMoveThresholdVelocity = 5f; 
+    private bool _isMoving;
+
+    private void FixedUpdate()
     {
-        // Ensure the ObjectSoundController component is attached to the same GameObject
-        _soundController = GetComponent<ObjectSoundController>();
-
-        if (_soundController == null)
-        {
-            Debug.LogError("ObjectSoundController component not found on this GameObject.");
-        }
-
-        _grabInteractable = GetComponent<XRGrabInteractable>();
-
-        if (_grabInteractable == null)
-        {
-            Debug.LogError("XRGrabInteractable component not found on this GameObject.");
-        }
-
-        _grabInteractable.firstHoverEntered.AddListener(OnFirstHoverEntered);
-        _grabInteractable.lastHoverExited.AddListener(OnLastHoverExited);
-        _grabInteractable.hoverEntered.AddListener(OnHoverEntered);
-        _grabInteractable.hoverExited.AddListener(OnHoverExited);
+        OnMove();
     }
 
-    protected virtual void OnDestroy()
+    public void OnMove()
     {
-        _grabInteractable.firstHoverEntered.RemoveListener(OnFirstHoverEntered);
-        _grabInteractable.lastHoverExited.RemoveListener(OnLastHoverExited);
-        _grabInteractable.hoverEntered.RemoveListener(OnHoverEntered);
-        _grabInteractable.hoverExited.RemoveListener(OnHoverExited);
+        if (_rigidbody == null) return;
+
+        float velocityMagnitude = _rigidbody.velocity.magnitude;
+
+        HandleMovementState(velocityMagnitude);
+        UpdateSoundSpeed(velocityMagnitude);
     }
 
-    public virtual void Interact()
+    private void HandleMovementState(float velocityMagnitude)
     {
-        _soundController?.PlayInteractSound();
+        bool isBelowMinVelocity = velocityMagnitude < _minMoveVelocity;
+        bool isAboveMinVelocity = velocityMagnitude > _minMoveVelocity;
+
+        if (isBelowMinVelocity && _isMoving)
+        {
+            StopMovement();
+        }
+        else if (isAboveMinVelocity && !_isMoving)
+        {
+            StartMovement();
+        }
+    }
+
+    private void StopMovement()
+    {
+        _soundController?.StopSound();
+        _isMoving = false;
+    }
+
+    private void StartMovement()
+    {
+        _soundController?.PlayMoveSound();
+        _isMoving = true;
+    }
+
+    private void UpdateSoundSpeed(float velocityMagnitude)
+    {
+        if (velocityMagnitude > _minMoveVelocity)
+        {
+            float normalizedSpeed = Mathf.InverseLerp(0, _maxMoveThresholdVelocity, velocityMagnitude);
+            _soundController?.UpdateMoveSoundSpeed(normalizedSpeed);
+        }
+    }
+
+    public virtual void Select()
+    {
+        _soundController?.PlaySelectSound();
         // Specific interact functionality for a pickup object
-        Debug.Log("The object is being interacted with.");
+        Debug.Log("The object is being activated.");
+    }
+
+    public void Deselect()
+    {
+        _soundController?.PlayDeselectSound();
+        // Specific interact functionality for a pickup object
+        Debug.Log("The object is being deactivated.");
     }
 
     public virtual void Highlight()
@@ -57,6 +89,39 @@ public abstract class InteractableObject : MonoBehaviour, IInteractable
         Debug.Log($"{gameObject.name} unhighlighted.");
     }
 
+    protected virtual void Awake()
+    {
+        // Ensure the ObjectSoundController component is attached to the same GameObject
+        _soundController = GetComponent<ObjectSoundController>();
+
+        if (_soundController == null)
+        {
+            Debug.LogError("ObjectSoundController component not found on this GameObject.");
+        }
+
+        _grabInteractable = GetComponent<XRBaseInteractable>();
+
+        if (_grabInteractable == null)
+        {
+            Debug.LogError("XRGrabInteractable component not found on this GameObject.");
+        }
+
+        _rigidbody = GetComponent<Rigidbody>();
+
+        _grabInteractable.firstHoverEntered.AddListener(OnFirstHoverEntered);
+        _grabInteractable.lastHoverExited.AddListener(OnLastHoverExited);
+        _grabInteractable.selectEntered.AddListener(OnSelectEntered);
+        _grabInteractable.selectExited.AddListener(OnSelectExited);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        _grabInteractable.firstHoverEntered.RemoveListener(OnFirstHoverEntered);
+        _grabInteractable.lastHoverExited.RemoveListener(OnLastHoverExited); 
+        _grabInteractable.selectEntered.RemoveListener(OnSelectEntered);
+        _grabInteractable.selectExited.RemoveListener(OnSelectExited);
+    }
+
     private void OnFirstHoverEntered(HoverEnterEventArgs args)
     {
         Highlight();
@@ -67,13 +132,13 @@ public abstract class InteractableObject : MonoBehaviour, IInteractable
         Unhighlight();
     }
 
-    private void OnHoverEntered(HoverEnterEventArgs args)
+    private void OnSelectEntered(SelectEnterEventArgs args)
     {
-        // Additional functionality for hover entered can be added here
+        Select();
     }
 
-    private void OnHoverExited(HoverExitEventArgs args)
+    private void OnSelectExited(SelectExitEventArgs args)
     {
-        // Additional functionality for hover exited can be added here
+        Deselect();
     }
 }

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IPickUpable
 {
-    void Grab();
-    void Release();
+    void Activate();
+    void Deactivate();
 }

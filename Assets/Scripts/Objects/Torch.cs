@@ -22,9 +22,9 @@ public class Flashlight : PickupObject
         SetFlashlightState(false);
     }
 
-    public override void Interact()
+    public override void Select()
     {
-        base.Interact();
+        base.Select();
         ToggleFlashlight();
     }
 

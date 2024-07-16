@@ -19,9 +19,9 @@ public class LightSwitch : InteractableObject
         }
     }
 
-    public override void Interact()
+    public override void Select()
     {
-        base.Interact();
+        base.Select();
         ToggleLight();
     }
 }

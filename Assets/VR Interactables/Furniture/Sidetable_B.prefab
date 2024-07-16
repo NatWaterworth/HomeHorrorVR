@@ -546,6 +546,7 @@ GameObject:
   - component: {fileID: 9138496622930404407}
   - component: {fileID: 1770577675173105145}
   - component: {fileID: 5972648457026856023}
+  - component: {fileID: 1981499705151960002}
   m_Layer: 6
   m_Name: Sidetable_B
   m_TagString: Untagged
@@ -643,6 +644,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: f1c39802724e4ca4484b3e87b7859606, type: 3}
+--- !u!114 &1981499705151960002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4158135630092367919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b0f1a85c9ead94a9bb370ee9243468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialType: 0
 --- !u!1 &4200984003912862628
 GameObject:
   m_ObjectHideFlags: 0
