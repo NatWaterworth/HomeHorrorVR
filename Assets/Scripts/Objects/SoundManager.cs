@@ -4,11 +4,12 @@ using System.Collections;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] float minImpactVolume = 0.1f;
-    [SerializeField] float maxImpactVolume = 1;
-    [SerializeField] float maxImpactVelocity = 5;
-    [SerializeField] float minPitch = 0.9f; // Minimum pitch
-    [SerializeField] float maxPitch = 1.1f; // Maximum pitch
+    [SerializeField] float _minImpactVolume = 0.1f;
+    [SerializeField] float _maxImpactVolume = 1;
+    [SerializeField] float _maxImpactVelocity = 5;
+    [SerializeField] float _minPitch = 0.9f; // Minimum pitch
+    [SerializeField] float _maxPitch = 1.1f; // Maximum pitch
+    [SerializeField] float _maxDistance = 10f; // Maximum pitch
 
     public static SoundManager Instance;
 
@@ -82,8 +83,9 @@ public class SoundManager : MonoBehaviour
             AudioClip clipToPlay = clips[Random.Range(0, clips.Count)];
 
             audioSource.clip = clipToPlay;
-            audioSource.pitch = Random.Range(minPitch, maxPitch);
+            audioSource.pitch = Random.Range(_minPitch, _maxPitch);
             audioSource.volume = GetVolumeFromImpactMagnitude(impactMagnitude);
+            audioSource.maxDistance = _maxDistance;
             audioSource.gameObject.SetActive(true);
             audioSource.Play();
             StartCoroutine(ReturnAudioSourceToPool(audioSource, clipToPlay.length));
@@ -96,8 +98,8 @@ public class SoundManager : MonoBehaviour
 
     private float GetVolumeFromImpactMagnitude(float impactMagnitude)
     {
-        float lerp = Mathf.InverseLerp(0, maxImpactVelocity, impactMagnitude);
-        return Mathf.Lerp(minImpactVolume, maxImpactVolume, lerp);
+        float lerp = Mathf.InverseLerp(0, _maxImpactVelocity, impactMagnitude);
+        return Mathf.Lerp(_minImpactVolume, _maxImpactVolume, lerp);
     }
 
     private IEnumerator ReturnAudioSourceToPool(AudioSource audioSource, float delay)

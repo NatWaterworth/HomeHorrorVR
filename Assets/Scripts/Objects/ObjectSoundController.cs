@@ -79,6 +79,7 @@ public class ObjectSoundController : MonoBehaviour
             int randomIndex = Random.Range(0, clips.Length);
             AudioClip clip = clips[randomIndex];
             _audioSource.PlayOneShot(clip);
+            Debug.Log($"play {clip.name}");
         }
     }
 

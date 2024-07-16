@@ -20,6 +20,21 @@ public class LightmapManager : MonoBehaviour
 
     public static event Action<bool> OnLightingToggle;
 
+    public static LightmapManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Keeps the instance alive across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Ensures only one instance exists
+        }
+    }
+
     void Start()
     {
         SetupLightmaps();
@@ -63,7 +78,7 @@ public class LightmapManager : MonoBehaviour
 
     private void SetLightProbes(bool isOn)
     {
-        LightmapSettings.lightProbes.bakedProbes = isOn ? 
+        LightmapSettings.lightProbes.bakedProbes = isOn ?
             _brightLightProbesData.bakedProbes : _darkLightProbesData.bakedProbes;
     }
 

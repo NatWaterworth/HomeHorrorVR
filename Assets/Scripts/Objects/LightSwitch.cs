@@ -2,20 +2,16 @@ using UnityEngine;
 
 public class LightSwitch : InteractableObject
 {
-    public Light targetLight;
-    public Switch switchComponent;
+    [SerializeField] Switch _switchComponent;
 
     // Function to toggle the light on and off
     public void ToggleLight()
     {
-        if (targetLight != null)
-        {
-            targetLight.enabled = !targetLight.enabled;
-        }
+        LightmapManager.Instance.ToggleLightmaps();
 
-        if (switchComponent != null)
+        if (_switchComponent != null)
         {
-            switchComponent.ToggleZScale();
+            _switchComponent.ToggleZScale();
         }
     }
 
