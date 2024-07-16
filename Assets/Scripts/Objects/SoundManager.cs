@@ -7,6 +7,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] float minImpactVolume = 0.1f;
     [SerializeField] float maxImpactVolume = 1;
     [SerializeField] float maxImpactVelocity = 5;
+    [SerializeField] float minPitch = 0.9f; // Minimum pitch
+    [SerializeField] float maxPitch = 1.1f; // Maximum pitch
 
     public static SoundManager Instance;
 
@@ -80,6 +82,7 @@ public class SoundManager : MonoBehaviour
             AudioClip clipToPlay = clips[Random.Range(0, clips.Count)];
 
             audioSource.clip = clipToPlay;
+            audioSource.pitch = Random.Range(minPitch, maxPitch);
             audioSource.volume = GetVolumeFromImpactMagnitude(impactMagnitude);
             audioSource.gameObject.SetActive(true);
             audioSource.Play();

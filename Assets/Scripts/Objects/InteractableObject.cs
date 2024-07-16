@@ -9,10 +9,10 @@ public abstract class InteractableObject : BasicObject, IInteractable
     protected Rigidbody _rigidbody;
 
     private float _minMoveVelocity = 0.01f;
-    private float _maxMoveThresholdVelocity = 5f; 
+    private float _maxMoveThresholdVelocity = 10f; 
     private bool _isMoving;
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         OnMove();
     }

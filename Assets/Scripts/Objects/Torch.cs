@@ -8,6 +8,15 @@ public class Flashlight : PickupObject
     private Material _flashlightMaterial;
     private bool _isOn;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+    }
 
     void Start()
     {
@@ -22,16 +31,16 @@ public class Flashlight : PickupObject
         SetFlashlightState(false);
     }
 
-    public override void Select()
+    public override void Activate()
     {
-        base.Select();
-        ToggleFlashlight();
+        base.Activate();
+        TurnFlashlightOn();
     }
 
-    public void ToggleFlashlight()
+    public override void Deactivate()
     {
-        _isOn = !_isOn;
-        SetFlashlightState(_isOn);
+        base.Deactivate();
+        TurnFlashlightOff();
     }
 
     public void TurnFlashlightOn()

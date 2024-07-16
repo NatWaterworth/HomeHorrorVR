@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 668640631922698106}
   - component: {fileID: 5974723980049327731}
   - component: {fileID: 7139167277898992353}
+  - component: {fileID: 5218922299128306972}
   m_Layer: 0
   m_Name: Torch
   m_TagString: Untagged
@@ -219,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32a0d874f285404db910a5a85d62008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialType: 1
   _flashlightLight: {fileID: 1751139351756950984}
   _flashlightRenderer: {fileID: 7145305766733641649}
 --- !u!64 &8733574035529866040
@@ -338,58 +340,10 @@ MonoBehaviour:
       m_Calls: []
   m_Activated:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8092361766723241050}
-        m_TargetAssemblyTypeName: Flashlight, Assembly-CSharp
-        m_MethodName: TurnFlashlightOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7139167277898992353}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_Deactivated:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8092361766723241050}
-        m_TargetAssemblyTypeName: Flashlight, Assembly-CSharp
-        m_MethodName: TurnFlashlightOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7139167277898992353}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
   m_StartingInteractionStrengthFilters: []
@@ -566,3 +520,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5218922299128306972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8753881176136220611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840f53b9d8192d54e98a639c727b3347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectSounds: []
+  _deselectSounds: []
+  _activateSounds: []
+  _deactivateSounds: []
+  _motionSounds: []
+  _impactSounds: []
+  _minMoveSoundPlaybackSpeed: 0.5
+  _maxMoveSoundPlaybackSpeed: 2
