@@ -1,0 +1,44 @@
+{
+    "lookInDrawers": [
+        "Secrets lie within the drawers...",
+        "Open the drawers, if you dare...",
+        "Hidden truths await in the drawers...",
+        "Your answers are buried in the drawers...",
+        "Drawers hold what you seek..."
+    ],
+    "findTheKeys": [
+        "The keys unlock your fate...",
+        "Keys to freedom are hidden...",
+        "Find the keys, escape the nightmare...",
+        "Keys will lead you out...",
+        "Unlock the mystery with the keys..."
+    ],
+    "destroyTheTV": [
+        "The TV holds their gaze...",
+        "Destroy the TV, break the spell...",
+        "Smash the screen, silence the screams...",
+        "The TV is a portal, end it...",
+        "Shatter the TV, escape the madness..."
+    ],
+    "avoidTheShadows": [
+        "Shadows are not what they seem...",
+        "Stay out of the shadows...",
+        "Light is your ally, shadows are death...",
+        "Shadows hide the lurking terror...",
+        "Fear the shadows, embrace the light..."
+    ],
+    "escapeTheRoom": [
+        "Find the exit, or perish...",
+        "Escape, while you still can...",
+        "The door is your salvation...",
+        "Flee this place, time is running out...",
+        "The room is a trap, get out..."
+    ],
+    "hide": [
+        "Hide or be hunted...",
+        "They are coming, find a hiding spot...",
+        "Don't let them see you, hide...",
+        "Conceal yourself, the danger is near...",
+        "Hide now, or face the terror..."
+    ]
+}

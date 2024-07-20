@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] float _maxImpactVelocity = 5;
     [SerializeField] float _minPitch = 0.9f; // Minimum pitch
     [SerializeField] float _maxPitch = 1.1f; // Maximum pitch
-    [SerializeField] float _maxDistance = 10f; // Maximum pitch
+    [SerializeField] float _maxDistance = 10f; // Maximum distance
 
     public static SoundManager Instance;
 
@@ -77,6 +77,7 @@ public class SoundManager : MonoBehaviour
         {
             AudioSource audioSource = audioSourcePool.Dequeue();
             audioSource.transform.position = position;
+            audioSource.transform.parent = null;
 
             // Select a random audio clip from the list
             List<AudioClip> clips = audioClipDictionary[materialType];
@@ -96,6 +97,77 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public AudioSource PlayRandomSound(AudioClip[] clips, Transform parentTransform)
+    {
+        if (clips == null || clips.Length == 0)
+        {
+            Debug.LogWarning("No audio clips provided");
+            return null;
+        }
+
+        if (audioSourcePool.Count > 0)
+        {
+            AudioSource audioSource = audioSourcePool.Dequeue();
+            audioSource.transform.parent = parentTransform;
+            audioSource.transform.localPosition = Vector3.zero;
+            AudioClip clipToPlay = clips[Random.Range(0, clips.Length)];
+            audioSource.pitch = 1;
+            audioSource.volume = 1; // Assuming full volume for these sounds
+            audioSource.clip = clipToPlay;
+            audioSource.maxDistance = _maxDistance;
+            audioSource.gameObject.SetActive(true);
+            audioSource.Play();
+            StartCoroutine(ReturnAudioSourceToPool(audioSource, clipToPlay.length));
+            return audioSource;
+        }
+        else
+        {
+            Debug.LogWarning("No available audio sources in the pool");
+            return null;
+        }
+    }
+
+    public AudioSource PlayRandomLoopingSound(AudioClip[] clips, Transform parentTransform)
+    {
+        if (clips == null || clips.Length == 0)
+        {
+            Debug.LogWarning("No audio clips provided");
+            return null;
+        }
+
+        if (audioSourcePool.Count > 0)
+        {
+            AudioSource audioSource = audioSourcePool.Dequeue();
+            audioSource.transform.parent = parentTransform;
+            audioSource.transform.localPosition = Vector3.zero;
+            AudioClip clipToPlay = clips[Random.Range(0, clips.Length)];
+            audioSource.pitch = 1;
+            audioSource.volume = 1; // Assuming full volume for these sounds
+            audioSource.clip = clipToPlay;
+            audioSource.loop = true;
+            audioSource.maxDistance = _maxDistance;
+            audioSource.gameObject.SetActive(true);
+            audioSource.Play();
+            return audioSource;
+        }
+        else
+        {
+            Debug.LogWarning("No available audio sources in the pool");
+            return null;
+        }
+    }
+
+    public void StopSound(AudioSource audioSource)
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            audioSource.gameObject.SetActive(false);
+            audioSource.transform.parent = transform;
+            audioSourcePool.Enqueue(audioSource);
+        }
+    }
+
     private float GetVolumeFromImpactMagnitude(float impactMagnitude)
     {
         float lerp = Mathf.InverseLerp(0, _maxImpactVelocity, impactMagnitude);
@@ -107,6 +179,7 @@ public class SoundManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         audioSource.Stop();
         audioSource.gameObject.SetActive(false);
+        audioSource.transform.parent = transform;
         audioSourcePool.Enqueue(audioSource);
     }
 }

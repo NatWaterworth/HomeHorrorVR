@@ -70,7 +70,7 @@ public abstract class InteractableObject : BasicObject, IInteractable
         Debug.Log("The object is being activated.");
     }
 
-    public void Deselect()
+    public virtual void Deselect()
     {
         _soundController?.PlayDeselectSound();
         // Specific interact functionality for a pickup object

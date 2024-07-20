@@ -43,6 +43,12 @@ public class Flashlight : PickupObject
         TurnFlashlightOff();
     }
 
+    public override void Deselect()
+    {
+        base.Deselect();
+        TurnFlashlightOff();
+    }
+
     public void TurnFlashlightOn()
     {
         SetFlashlightState(true);
