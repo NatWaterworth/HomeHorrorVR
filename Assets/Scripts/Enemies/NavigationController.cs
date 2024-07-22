@@ -6,11 +6,17 @@ public class NavigationController : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public Transform[] waypoints;
-    public float jumpDistance = 2f; // Distance within which Teddy will jump between points
-    public float jumpHeight = 2f; // Height of the jump
+    public Animator animator;
+    public float jumpHeight = 2f; // Maximum height of the jump
+    public float jumpDuration = 1f; // Duration of the jump
 
     private int currentWaypointIndex = 0;
     private bool isJumping = false;
+
+    public void Setup(Animator animator)
+    {
+        this.animator = animator;
+    }
 
     public void EnableNavigation()
     {
@@ -33,52 +39,44 @@ public class NavigationController : MonoBehaviour
         if (waypoints.Length == 0 || !navMeshAgent.enabled) return;
 
         Vector3 destination = waypoints[currentWaypointIndex].position;
-        Vector3 direction = destination - transform.position;
-        float distance = direction.magnitude;
-
-        if (distance <= jumpDistance && !IsPathFullyConnected(transform.position, destination))
-        {
-            StartCoroutine(JumpTo(destination));
-        }
-        else
-        {
-            navMeshAgent.SetDestination(destination);
-        }
+        navMeshAgent.SetDestination(destination);
 
         currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
     }
 
-    bool IsPathFullyConnected(Vector3 start, Vector3 end)
-    {
-        NavMeshPath path = new NavMeshPath();
-        navMeshAgent.CalculatePath(end, path);
-        return path.status == NavMeshPathStatus.PathComplete;
-    }
-
-    IEnumerator JumpTo(Vector3 destination)
+    IEnumerator JumpAcrossLink(Vector3 endPos)
     {
         isJumping = true;
         navMeshAgent.enabled = false;
+        animator.SetBool("Jump", true);
 
         Vector3 startPos = transform.position;
-        float jumpProgress = 0f;
-        while (jumpProgress < 1f)
+        float elapsedTime = 0f;
+
+        while (elapsedTime < jumpDuration)
         {
-            jumpProgress += Time.deltaTime / 1f; // 1 second jump duration
-            float heightOffset = Mathf.Sin(Mathf.PI * jumpProgress) * jumpHeight;
-            transform.position = Vector3.Lerp(startPos, destination, jumpProgress) + Vector3.up * heightOffset;
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / jumpDuration;
+            float heightOffset = Mathf.Sin(Mathf.PI * t) * jumpHeight;
+            transform.position = Vector3.Lerp(startPos, endPos, t) + Vector3.up * heightOffset;
             yield return null;
         }
 
-        transform.position = destination;
+        transform.position = endPos;
         navMeshAgent.enabled = true;
         isJumping = false;
+        animator.SetBool("Jump", false);
         MoveToNextWaypoint();
     }
 
     void Update()
     {
-        if (navMeshAgent.enabled && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
+        if (navMeshAgent.isOnOffMeshLink)
+        {
+            StartCoroutine(JumpAcrossLink(navMeshAgent.currentOffMeshLinkData.endPos));
+            navMeshAgent.CompleteOffMeshLink();
+        }
+        else if (navMeshAgent.enabled && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
         {
             MoveToNextWaypoint();
         }

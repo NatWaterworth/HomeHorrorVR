@@ -27,7 +27,8 @@ public class TeddyController : MonoBehaviour
         // Remove the main collider from the ragdollColliders array
         ragdollColliders = System.Array.FindAll(ragdollColliders, col => col != mainCollider);
 
-        EnableRagdoll();
+        navigationController.Setup(animator); // Pass the Animator reference to NavigationController
+        EnableNavMesh();
     }
 
     private void Update()
@@ -37,7 +38,7 @@ public class TeddyController : MonoBehaviour
 
     private void HandleLightingToggle(bool lightingOn)
     {
-        if (lightingOn)
+        if (!lightingOn)
         {
             EnableRagdoll();
         }
