@@ -7,10 +7,13 @@ public class NavigationController : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public Transform[] waypoints;
     public Animator animator;
-    public float jumpHeight = 2f; // Maximum height of the jump
+    public float maxJumpHeight = 2f; // Maximum height of the jump
+    public float minJumpHeight = 0.5f; // Minimum height of the jump to avoid clipping
     public float jumpDuration = 1f; // Duration of the jump
+    public float preJumpPause = 0.5f; // Pause before jump
+    public float postJumpPause = 0.5f; // Pause after jump
+    public float jumpHeightOffset = 0.5f; // Extra height to avoid clipping
 
-    private int currentWaypointIndex = 0;
     private bool isJumping = false;
 
     public void Setup(Animator animator)
@@ -38,34 +41,44 @@ public class NavigationController : MonoBehaviour
     {
         if (waypoints.Length == 0 || !navMeshAgent.enabled) return;
 
-        Vector3 destination = waypoints[currentWaypointIndex].position;
+        // Select a random waypoint as the next destination
+        Vector3 destination = waypoints[Random.Range(0, waypoints.Length)].position;
         navMeshAgent.SetDestination(destination);
-
-        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
     }
 
     IEnumerator JumpAcrossLink(Vector3 endPos)
     {
         isJumping = true;
         navMeshAgent.enabled = false;
+
+        // Pre-jump pause
         animator.SetBool("Jump", true);
+        yield return new WaitForSeconds(preJumpPause);
 
+        // Calculate the required jump height
         Vector3 startPos = transform.position;
-        float elapsedTime = 0f;
+        float heightDifference = endPos.y - startPos.y;
+        float actualJumpHeight = Mathf.Max(minJumpHeight, Mathf.Min(maxJumpHeight, heightDifference + jumpHeightOffset));
 
+        // Jump
+        float elapsedTime = 0f;
         while (elapsedTime < jumpDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / jumpDuration;
-            float heightOffset = Mathf.Sin(Mathf.PI * t) * jumpHeight;
+            float heightOffset = Mathf.Sin(Mathf.PI * t) * actualJumpHeight;
             transform.position = Vector3.Lerp(startPos, endPos, t) + Vector3.up * heightOffset;
             yield return null;
         }
 
         transform.position = endPos;
+        animator.SetBool("Jump", false);
+
+        // Post-jump pause
+        yield return new WaitForSeconds(postJumpPause);
+
         navMeshAgent.enabled = true;
         isJumping = false;
-        animator.SetBool("Jump", false);
         MoveToNextWaypoint();
     }
 
