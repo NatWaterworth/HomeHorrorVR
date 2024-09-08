@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3c572aab29711754c80932342469e39e
+guid: a5705a028fba9c44b84c7c8340f5b223
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
@@ -335,7 +335,7 @@ ModelImporter:
     second: Mesh_eyes
   - first:
       74: 7400000
-    second: jump
+    second: jump_prep
   - first:
       95: 9500000
     second: //RootNode
@@ -372,11 +372,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: jump
+      name: jump_prep
       takeName: Take 001
       internalID: 7400000
-      firstFrame: 6
-      lastFrame: 30
+      firstFrame: 1
+      lastFrame: 6
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
