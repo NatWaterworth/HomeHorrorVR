@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public abstract class InteractableObject : BasicObject, IInteractable
 {
     protected ObjectSoundController _soundController;
-    protected XRBaseInteractable _grabInteractable;
+    protected UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable _grabInteractable;
     protected Rigidbody _rigidbody;
 
     private float _minMoveVelocity = 0.01f;
@@ -21,7 +21,7 @@ public abstract class InteractableObject : BasicObject, IInteractable
     {
         if (_rigidbody == null) return;
 
-        float velocityMagnitude = _rigidbody.velocity.magnitude;
+        float velocityMagnitude = _rigidbody.linearVelocity.magnitude;
 
         HandleMovementState(velocityMagnitude);
         UpdateSoundSpeed(velocityMagnitude);
@@ -99,7 +99,7 @@ public abstract class InteractableObject : BasicObject, IInteractable
             Debug.LogError("ObjectSoundController component not found on this GameObject.");
         }
 
-        _grabInteractable = GetComponent<XRBaseInteractable>();
+        _grabInteractable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
 
         if (_grabInteractable == null)
         {

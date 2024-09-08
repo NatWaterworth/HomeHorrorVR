@@ -90,7 +90,7 @@ public class LightmapManager : MonoBehaviour
 
     private void SetupReflectionProbeControllers()
     {
-        reflectionProbeSwitchers = FindObjectsOfType<ReflectionProbeSwitcher>();
+        reflectionProbeSwitchers = FindObjectsByType<ReflectionProbeSwitcher>(FindObjectsSortMode.None);
     }
 
     public void TurnAllReflectionProbesToState(bool isOn)
