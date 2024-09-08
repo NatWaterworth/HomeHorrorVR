@@ -31,11 +31,6 @@ public class TeddyController : MonoBehaviour
         EnableNavMesh();
     }
 
-    private void Update()
-    {
-        UpdateAnimator();
-    }
-
     private void HandleLightingToggle(bool lightingOn)
     {
         if (!lightingOn)
@@ -74,15 +69,6 @@ public class TeddyController : MonoBehaviour
         foreach (var col in ragdollColliders)
         {
             col.enabled = state;
-        }
-    }
-
-    private void UpdateAnimator()
-    {
-        if (animator.enabled && navigationController.navMeshAgent.enabled)
-        {
-            animator.SetFloat("MoveSpeed", navigationController.navMeshAgent.velocity.magnitude);
-            animator.SetBool("Jump", navigationController.IsJumping());
         }
     }
 }
